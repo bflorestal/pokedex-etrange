@@ -1,5 +1,33 @@
 import { z } from "zod";
 
+// Types de Pokémon
+export const pokemonTypes = [
+  "Normal",
+  "Fighting",
+  "Flying",
+  "Poison",
+  "Ground",
+  "Rock",
+  "Bug",
+  "Ghost",
+  "Steel",
+  "Fire",
+  "Water",
+  "Grass",
+  "Electric",
+  "Psychic",
+  "Ice",
+  "Dragon",
+  "Dark",
+  "Fairy",
+] as const;
+
+export const TypeEnum = z.enum(pokemonTypes);
+
+export type PokemonType = z.infer<typeof TypeEnum>;
+
+// Schemas de Pokémon
+
 export const PokemonSchema = z.object({
   name: z.object({
     english: z.string().min(1).max(255),
@@ -7,7 +35,7 @@ export const PokemonSchema = z.object({
     chinese: z.string().min(1).max(255).optional(),
     french: z.string().min(1).max(255),
   }),
-  type: z.array(z.string().min(1).max(255)).length(2),
+  type: z.array(TypeEnum).min(1).max(2),
   base: z.object({
     HP: z.number().int().positive(),
     Attack: z.number().int().positive(),
