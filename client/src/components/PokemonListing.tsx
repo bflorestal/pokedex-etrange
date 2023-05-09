@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { PokemonWithId } from "../../../server/src/modules/pokemon.schema";
+import { LanguageContext } from "../contexts/Language";
 
 export default function PokemonListing({
   data,
@@ -7,6 +9,9 @@ export default function PokemonListing({
   data: PokemonWithId[];
   searchTerm: string;
 }) {
+  const value = useContext(LanguageContext);
+  const currentLang = value!.currentLang.name;
+
   const filteredData = data.filter((pokemon) => {
     const filteredList =
       pokemon.name.french.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -30,11 +35,17 @@ export default function PokemonListing({
       {filteredData.map((pokemon) => (
         <article key={pokemon.id}>
           <p className={`type__${pokemon.type[0].toLowerCase()}`}>
-            {pokemon.name.french}
+            {pokemon.name[currentLang]
+              ? pokemon.name[currentLang]
+              : pokemon.name.french}
           </p>
           <img
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}
-            alt={pokemon.name.french}
+            alt={
+              pokemon.name[currentLang]
+                ? pokemon.name[currentLang]
+                : pokemon.name.french
+            }
           />
         </article>
       ))}
