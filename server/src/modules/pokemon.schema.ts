@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const Pokemon = z.object({
+export const PokemonSchema = z.object({
   name: z.object({
     english: z.string().min(1).max(255),
     japanese: z.string().min(1).max(255).optional(),
@@ -18,9 +18,9 @@ const Pokemon = z.object({
   }),
 });
 
-const PokemonWithId = Pokemon.extend({
+export const PokemonSchemaWithId = PokemonSchema.extend({
   id: z.number().int().positive(),
 });
 
-export type Pokemon = z.infer<typeof Pokemon>;
-export type PokemonWithId = z.infer<typeof PokemonWithId>;
+export type PokemonWithId = z.infer<typeof PokemonSchemaWithId>;
+export type Pokemon = z.infer<typeof PokemonSchema>;
