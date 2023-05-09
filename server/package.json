@@ -2,11 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/app.ts",
+  "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
-    "start": "tsx src/server.ts",
-    "watch": "tsx watch src"
+    "dev": "tsx watch src",
+    "start": "tsx src/index.ts"
   },
   "keywords": [],
   "author": "",
