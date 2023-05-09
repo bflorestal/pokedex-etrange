@@ -79,5 +79,5 @@ export const deletePokemon = (req: Request, res: Response) => {
     JSON.stringify(pokedex)
   );
 
-  return res.status(200).json({ message: "Pokémon supprimé." });
+  return res.status(200).json({ message: `Pokémon #${id} supprimé.` });
 };
