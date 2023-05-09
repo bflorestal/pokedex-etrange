@@ -36,8 +36,8 @@ export default function App() {
       <Header />
       <main>
         <section>
-          <div>
-            <h1>Pokédex Étrange</h1>
+          <h1>Pokédex Étrange</h1>
+          <div style={{ marginBottom: "2rem" }}>
             <input
               type="text"
               placeholder="Rechercher..."
@@ -49,7 +49,11 @@ export default function App() {
             {isLoading ? (
               <Loading />
             ) : (
-              <PokemonListing data={data} searchTerm={search} />
+              <PokemonListing
+                data={data}
+                searchTerm={search}
+                setData={setData}
+              />
             )}
           </div>
         </section>

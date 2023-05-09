@@ -2,14 +2,19 @@ import { useContext } from "react";
 import { PokemonWithId } from "../../../server/src/modules/pokemon.schema";
 import { LanguageContext } from "../contexts/Language";
 import styles from "./PokemonListing.module.css";
+import { deletePokemon } from "../utils/pokemon";
+
+type PokemonListingProps = {
+  data: PokemonWithId[];
+  searchTerm: string;
+  setData: React.Dispatch<React.SetStateAction<PokemonWithId[]>>;
+};
 
 export default function PokemonListing({
   data,
   searchTerm,
-}: {
-  data: PokemonWithId[];
-  searchTerm: string;
-}) {
+  setData,
+}: PokemonListingProps) {
   const value = useContext(LanguageContext);
   const currentLang = value!.currentLang.name;
 
@@ -22,6 +27,15 @@ export default function PokemonListing({
 
     return filteredList;
   });
+
+  const handleDelete = async (id: number) => {
+    const res = await deletePokemon(id);
+
+    const newData = data.filter((pokemon) => pokemon.id !== id);
+    setData(newData);
+
+    alert(res.message);
+  };
 
   if (filteredData.length === 0) {
     return (
@@ -62,9 +76,13 @@ export default function PokemonListing({
                 </p>
               ))}
             </td>
-            {Object.values(pokemon.base).map((stat) => (
-              <td key={stat}>{stat}</td>
+            {Object.values(pokemon.base).map((stat, index) => (
+              <td key={`${pokemon.id}-${index}-${stat}`}>{stat}</td>
             ))}
+
+            <td>
+              <button onClick={() => handleDelete(pokemon.id)}>X</button>
+            </td>
           </tr>
         ))}
       </tbody>
