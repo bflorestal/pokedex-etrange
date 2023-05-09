@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { PokemonWithId } from "../../../server/src/modules/pokemon.schema";
 import { LanguageContext } from "../contexts/Language";
+import styles from "./PokemonListing.module.css";
 
 export default function PokemonListing({
   data,
@@ -31,22 +32,15 @@ export default function PokemonListing({
   }
 
   return (
-    <div>
+    <div className={styles.listing}>
       {filteredData.map((pokemon) => (
-        <article key={pokemon.id}>
-          <p className={`type__${pokemon.type[0].toLowerCase()}`}>
+        <article key={pokemon.id} className={styles.pokemon}>
+          <p>#{pokemon.id}</p>
+          <p className={styles[pokemon.type[0].toLowerCase()]}>
             {pokemon.name[currentLang]
               ? pokemon.name[currentLang]
               : pokemon.name.french}
           </p>
-          <img
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`}
-            alt={
-              pokemon.name[currentLang]
-                ? pokemon.name[currentLang]
-                : pokemon.name.french
-            }
-          />
         </article>
       ))}
     </div>
