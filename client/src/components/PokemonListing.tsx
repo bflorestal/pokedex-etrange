@@ -32,17 +32,42 @@ export default function PokemonListing({
   }
 
   return (
-    <div className={styles.listing}>
-      {filteredData.map((pokemon) => (
-        <article key={pokemon.id} className={styles.pokemon}>
-          <p>#{pokemon.id}</p>
-          <p className={styles[pokemon.type[0].toLowerCase()]}>
-            {pokemon.name[currentLang]
-              ? pokemon.name[currentLang]
-              : pokemon.name.french}
-          </p>
-        </article>
-      ))}
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nom</th>
+          <th>Types</th>
+          <th>PV</th>
+          <th>Attaque</th>
+          <th>Défense</th>
+          <th>Attaque Spé.</th>
+          <th>Défense Spé.</th>
+          <th>Vitesse</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filteredData.map((pokemon) => (
+          <tr key={pokemon.id}>
+            <td>{pokemon.id}</td>
+            <td className={styles[pokemon.type[0].toLowerCase()]}>
+              {pokemon.name[currentLang]
+                ? pokemon.name[currentLang]
+                : pokemon.name.french}
+            </td>
+            <td className={styles.types}>
+              {pokemon.type.map((type) => (
+                <p key={type} className={styles[type.toLowerCase()]}>
+                  {type}
+                </p>
+              ))}
+            </td>
+            {Object.values(pokemon.base).map((stat) => (
+              <td key={stat}>{stat}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }

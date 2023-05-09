@@ -1,10 +1,5 @@
-.listing {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.pokemon {
-  display: flex;
+.types p {
+  margin: 0;
 }
 
 /* Types */
