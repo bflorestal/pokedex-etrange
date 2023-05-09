@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 
 import type { PokemonWithId } from "../../server/src/modules/pokemon.schema";
 import { getAllPokemon } from "./utils/pokemon";
