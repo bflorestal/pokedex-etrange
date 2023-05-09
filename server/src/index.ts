@@ -3,7 +3,7 @@ import cors from "cors";
 
 import { env } from "./env";
 
-import { pokemonRoute } from "./routes/pokemon";
+import { pokemonRoute } from "./modules/pokemon.route";
 
 const app = express();
 

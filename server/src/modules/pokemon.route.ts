@@ -6,7 +6,7 @@ import {
   createPokemon,
   updatePokemon,
   deletePokemon,
-} from "../controllers/pokemon";
+} from "./pokemon.controller";
 
 const router = Router();
 
