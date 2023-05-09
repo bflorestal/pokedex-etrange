@@ -34,17 +34,18 @@ export default function App() {
     <>
       <Header />
       <main>
-        <section>
-          <h1>Pokédex Étrange</h1>
-          <div style={{ marginBottom: "2rem" }}>
+        <section className="flex flex-col justify-center items-center gap-6">
+          <h1 className="font-bold text-4xl text-center">Pokédex Étrange</h1>
+          <div>
             <input
               type="text"
               placeholder="Rechercher..."
               value={search}
               onChange={handleChange}
+              className="input input-bordered w-full max-w-xs"
             />
           </div>
-          <div>
+          <div className="overflow-x-auto">
             {isLoading ? (
               <Loading />
             ) : (
