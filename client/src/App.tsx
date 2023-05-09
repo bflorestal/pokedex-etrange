@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 import type { PokemonWithId } from "../../server/src/modules/pokemon.schema";
-import PokemonListing from "./components/PokemonListing";
-
 import { getAllPokemon } from "./utils/pokemon";
+
+import Header from "./components/Header";
+import PokemonListing from "./components/PokemonListing";
+import Loading from "./components/Loading";
 
 export default function App() {
   const [data, setData] = useState<PokemonWithId[]>([]);
@@ -30,25 +32,28 @@ export default function App() {
   }, []);
 
   return (
-    <main>
-      <section>
-        <div>
-          <h1>Pokédex Étrange</h1>
-          <input
-            type="text"
-            placeholder="Rechercher..."
-            value={search}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          {isLoading ? (
-            <p>Chargement...</p>
-          ) : (
-            <PokemonListing data={data} searchTerm={search} />
-          )}
-        </div>
-      </section>
-    </main>
+    <>
+      <Header />
+      <main>
+        <section>
+          <div>
+            <h1>Pokédex Étrange</h1>
+            <input
+              type="text"
+              placeholder="Rechercher..."
+              value={search}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <PokemonListing data={data} searchTerm={search} />
+            )}
+          </div>
+        </section>
+      </main>
+    </>
   );
 }
