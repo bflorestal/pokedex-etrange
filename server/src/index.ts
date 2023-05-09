@@ -16,6 +16,6 @@ app.get("/", (_req, res) => {
 
 app.use("/pokemon", pokemonRoute);
 
-app.listen(env.PORT ?? 5000, () =>
-  console.log(`Serveur disponible sur http://localhost:${env.PORT ?? 5000}`)
+app.listen(env.PORT, () =>
+  console.log(`Serveur disponible sur http://localhost:${env.PORT}`)
 );

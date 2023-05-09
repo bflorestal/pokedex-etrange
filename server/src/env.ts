@@ -8,7 +8,7 @@ const server = z.object({
 });
 
 const processEnv = {
-  PORT: Number(process.env.PORT),
+  PORT: Number(process.env.PORT) || 5000,
 };
 
 const env = process.env as unknown as z.infer<typeof server>;
