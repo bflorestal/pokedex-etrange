@@ -1,6 +1,8 @@
+import styles from "./Loading.module.css";
+
 export default function Loading() {
   return (
-    <div className="ldsRing">
+    <div className={styles["lds-ring"]}>
       <div></div>
       <div></div>
       <div></div>

@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 1rem;
+}
+
+.brand {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: inherit;
+  transition: opacity 0.2s;
+}
+
+.brand:hover {
+  color: inherit;
+  opacity: 0.8;
+}

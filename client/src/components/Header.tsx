@@ -1,12 +1,18 @@
+import styles from "./Header.module.css";
+
 export default function Header() {
   return (
-    <header>
+    <header className={styles.header}>
       <div>
-        <span>Pokédex</span>
+        <a href="/" className={styles.brand}>
+          Pokédex
+        </a>
       </div>
       <div>
-        <button>🇫🇷</button>
-        <button>🇬🇧</button>
+        <select name="language" id="language">
+          <option value="french">🇫🇷</option>
+          <option value="english">🇬🇧</option>
+        </select>
       </div>
     </header>
   );
