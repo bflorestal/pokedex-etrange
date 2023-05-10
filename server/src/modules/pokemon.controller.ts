@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 
 import pokedex from "../data/pokedex.json";
+import { PokemonSchema } from "./pokemon.schema";
 
 export const getAllPokemon = (_req: Request, res: Response) => {
   return res.status(200).json(pokedex);
@@ -26,10 +27,24 @@ export const createPokemon = (req: Request, res: Response) => {
     return res.status(400).json({ message: "Aucun Pokémon n'a été envoyé." });
   }
 
-  // TODO: Vérifier que le Pokémon n'existe pas déjà
+  const pokemonExists = pokedex.find(
+    (pokedexPokemon) =>
+      pokedexPokemon.name.french === pokemon.name.french ||
+      pokedexPokemon.name.english === pokemon.name.english
+  );
 
-  // TODO: Vérifier que le Pokémon a bien toutes les propriétés requises
+  if (pokemonExists) {
+    return res.status(400).json({ message: "Ce Pokémon existe déjà." });
+  }
 
+  // Parsing pour vérifier que le Pokémon a bien toutes les propriétés requises
+  const validatedPokemon = PokemonSchema.safeParse(pokemon);
+
+  if (!validatedPokemon.success) {
+    return res.status(400).json({ message: "Données invalides." });
+  }
+
+  // Ajout du Pokémon dans le pokedex
   const newPokemon = { ...pokemon, id: pokedex.length + 1 };
   pokedex.push(newPokemon);
 
@@ -49,8 +64,14 @@ export const updatePokemon = (req: Request, res: Response) => {
     return res.status(404).json({ message: "Pokémon introuvable." });
   }
 
-  // TODO: Vérifier que les données envoyées sont valides
+  // Parsing pour vérifier que le Pokémon a bien toutes les propriétés requises
+  const validatedPokemon = PokemonSchema.safeParse(req.body);
 
+  if (!validatedPokemon.success) {
+    return res.status(400).json({ message: "Données invalides." });
+  }
+
+  // Mise à jour du Pokémon dans le pokedex
   const updatedPokemon = { ...pokemon, ...req.body };
   const index = pokedex.indexOf(pokemon);
   pokedex[index] = updatedPokemon;
@@ -71,6 +92,7 @@ export const deletePokemon = (req: Request, res: Response) => {
     return res.status(404).json({ message: "Pokémon introuvable." });
   }
 
+  // Suppression du Pokémon dans le pokedex
   const index = pokedex.indexOf(pokemon);
   pokedex.splice(index, 1);
 
