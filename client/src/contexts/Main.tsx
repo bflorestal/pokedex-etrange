@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 
+// TODO: Renommer ce contexte car il sert à la modification
 type MainContextType = {
   currentPokemonId: number | null;
   changeCurrentPokemonId: (id: number) => void;
