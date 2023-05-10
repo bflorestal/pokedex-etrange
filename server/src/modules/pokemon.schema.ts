@@ -30,10 +30,10 @@ export type PokemonType = z.infer<typeof TypeEnum>;
 
 export const PokemonSchema = z.object({
   name: z.object({
-    english: z.string().min(1).max(255),
-    japanese: z.string().min(1).max(255).optional(),
-    chinese: z.string().min(1).max(255).optional(),
-    french: z.string().min(1).max(255),
+    english: z.string().min(1).max(70),
+    japanese: z.string().min(1).max(70).optional(),
+    chinese: z.string().min(1).max(70).optional(),
+    french: z.string().min(1).max(70),
   }),
   type: z.array(TypeEnum).min(1).max(2),
   base: z.object({
