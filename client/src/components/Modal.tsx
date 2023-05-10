@@ -1,4 +1,5 @@
 // Import des schemas permettant de valider les données
+import { useContext, useEffect, useState } from "react";
 import {
   PokemonSchema,
   PokemonSchemaWithId,
@@ -6,7 +7,8 @@ import {
   pokemonTypes,
 } from "../../../server/src/modules/pokemon.schema";
 
-import { createPokemon, updatePokemon } from "../utils/pokemon";
+import { createPokemon, getPokemonById, updatePokemon } from "../utils/pokemon";
+import { MainContext } from "../contexts/Main";
 
 export function AddPokemonModal() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -69,7 +71,31 @@ export function AddPokemonModal() {
   );
 }
 
-export function EditPokemonModal({ pokemon }: { pokemon: PokemonWithId }) {
+export function EditPokemonModal({ pokemonId }: { pokemonId: number | null }) {
+  const [pokemon, setPokemon] = useState<PokemonWithId | null>(null);
+
+  const value = useContext(MainContext);
+
+  // Récupération des données du Pokémon
+  useEffect(() => {
+    const fetchPokemon = async () => {
+      if (!pokemonId) return;
+
+      const res = await getPokemonById(pokemonId);
+
+      if (!res) {
+        alert(
+          `Une erreur est survenue lors de la récupération du Pokémon #${pokemonId}`
+        );
+        return;
+      }
+
+      setPokemon(res);
+    };
+
+    fetchPokemon();
+  }, [pokemonId]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -81,7 +107,7 @@ export function EditPokemonModal({ pokemon }: { pokemon: PokemonWithId }) {
 
     // Transformation des données pour les rendre compatibles avec le schema
     const formattedData = {
-      id: pokemon.id,
+      id: pokemonId,
       name: {
         french: data.name1,
         english: data.name2,
@@ -111,7 +137,7 @@ export function EditPokemonModal({ pokemon }: { pokemon: PokemonWithId }) {
 
     if (!res) {
       alert(
-        `Une erreur est survenue lors de la modification de ${pokemon.name.french}`
+        `Une erreur est survenue lors de la modification de ${pokemon?.name.french}`
       );
       return;
     }
@@ -119,6 +145,8 @@ export function EditPokemonModal({ pokemon }: { pokemon: PokemonWithId }) {
     // TODO: Fermer la modale et afficher un message de succès
 
     form.reset();
+
+    value?.setIsEditing(false);
   };
 
   return (
@@ -142,7 +170,7 @@ type PokemonFormProps = {
   addPokemon?: (e: React.FormEvent<HTMLFormElement>) => void;
   editPokemon?: (e: React.FormEvent<HTMLFormElement>) => void;
   formType: "add" | "edit";
-  pokemon?: PokemonWithId;
+  pokemon?: PokemonWithId | null;
 };
 
 function PokemonForm({

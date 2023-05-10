@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { PokemonWithId } from "../../../server/src/modules/pokemon.schema";
 import { LanguageContext } from "../contexts/Language";
+import { MainContext } from "../contexts/Main";
 import styles from "./PokemonListing.module.css";
 import { deletePokemon } from "../utils/pokemon";
-import { EditPokemonModal } from "./Modal";
 
 type PokemonListingProps = {
   data: PokemonWithId[];
@@ -16,8 +16,10 @@ export default function PokemonListing({
   searchTerm,
   setData,
 }: PokemonListingProps) {
-  const value = useContext(LanguageContext);
-  const currentLang = value!.currentLang.name;
+  const languageValue = useContext(LanguageContext);
+  const currentLang = languageValue ? languageValue.currentLang.name : "french";
+
+  const mainValue = useContext(MainContext);
 
   const filteredData = data.filter((pokemon) => {
     const filteredList =
@@ -28,6 +30,12 @@ export default function PokemonListing({
 
     return filteredList;
   });
+
+  const handleUpdate = (id: number) => {
+    mainValue?.changeCurrentPokemonId(id);
+
+    mainValue?.setIsEditing(true);
+  };
 
   const handleDelete = async (id: number) => {
     if (!confirm("Êtes-vous sûr de vouloir supprimer ce Pokémon ?")) {
@@ -94,6 +102,7 @@ export default function PokemonListing({
                 <label
                   htmlFor="my-modal-3"
                   className="btn btn-circle btn-primary btn-sm mr-2"
+                  onClick={() => handleUpdate(pokemon.id)}
                 >
                   <svg
                     stroke="currentColor"
@@ -108,10 +117,6 @@ export default function PokemonListing({
                     <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 000-1.41l-2.34-2.34a.996.996 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path>
                   </svg>
                 </label>
-
-                {/* TODO: Trouver une méthode plus propre */}
-                <EditPokemonModal pokemon={pokemon} />
-
                 <button
                   onClick={() => handleDelete(pokemon.id)}
                   className="btn btn-circle btn-error btn-sm"

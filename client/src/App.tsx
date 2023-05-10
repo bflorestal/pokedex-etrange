@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import type { PokemonWithId } from "../../server/src/modules/pokemon.schema";
 import { getAllPokemon } from "./utils/pokemon";
@@ -6,12 +6,15 @@ import { getAllPokemon } from "./utils/pokemon";
 import Header from "./components/Header";
 import PokemonListing from "./components/PokemonListing";
 import Loading from "./components/Loading";
-import { AddPokemonModal } from "./components/Modal";
+import { AddPokemonModal, EditPokemonModal } from "./components/Modal";
+import { MainContext } from "./contexts/Main";
 
 export default function App() {
   const [data, setData] = useState<PokemonWithId[]>([]);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+
+  const value = useContext(MainContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -61,6 +64,10 @@ export default function App() {
             <Loading />
           ) : (
             <PokemonListing data={data} searchTerm={search} setData={setData} />
+          )}
+
+          {value?.isEditing && (
+            <EditPokemonModal pokemonId={value.currentPokemonId} />
           )}
         </section>
       </main>
