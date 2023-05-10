@@ -35,6 +35,11 @@ export default function PokemonListing({
 
     const res = await deletePokemon(id);
 
+    if (!res) {
+      alert(`Une erreur est survenue lors de la suppression du Pokémon #${id}`);
+      return;
+    }
+
     const newData = data.filter((pokemon) => pokemon.id !== id);
     setData(newData);
   };
