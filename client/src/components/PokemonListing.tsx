@@ -3,6 +3,7 @@ import { PokemonWithId } from "../../../server/src/modules/pokemon.schema";
 import { LanguageContext } from "../contexts/Language";
 import styles from "./PokemonListing.module.css";
 import { deletePokemon } from "../utils/pokemon";
+import { EditPokemonModal } from "./Modal";
 
 type PokemonListingProps = {
   data: PokemonWithId[];
@@ -66,7 +67,7 @@ export default function PokemonListing({
             <th>Attaque Spé.</th>
             <th>Défense Spé.</th>
             <th>Vitesse</th>
-            <th></th>
+            <th colSpan={2}></th>
           </tr>
         </thead>
         <tbody>
@@ -90,6 +91,27 @@ export default function PokemonListing({
               ))}
 
               <td>
+                <label
+                  htmlFor="my-modal-3"
+                  className="btn btn-circle btn-primary btn-sm mr-2"
+                >
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    className="h-6 w-6"
+                    strokeWidth={0}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    {" "}
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 000-1.41l-2.34-2.34a.996.996 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path>
+                  </svg>
+                </label>
+
+                {/* TODO: Trouver une méthode plus propre */}
+                <EditPokemonModal pokemon={pokemon} />
+
                 <button
                   onClick={() => handleDelete(pokemon.id)}
                   className="btn btn-circle btn-error btn-sm"

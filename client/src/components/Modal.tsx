@@ -59,7 +59,7 @@ export function AddPokemonModal() {
 
   return (
     <>
-      <input type="checkbox" id="my-modal-3" className="modal-toggle" />
+      <input type="checkbox" id="my-modal-2" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box relative">
           <PokemonForm addPokemon={handleSubmit} formType="add" />
@@ -154,7 +154,7 @@ function PokemonForm({
   return (
     <form onSubmit={formType === "edit" ? editPokemon : addPokemon}>
       <label
-        htmlFor="my-modal-3"
+        htmlFor={formType === "edit" ? "my-modal-3" : "my-modal-2"}
         className="btn btn-sm btn-circle absolute right-2 top-2"
       >
         <svg
@@ -174,7 +174,7 @@ function PokemonForm({
       </label>
       <span className="text-lg font-bold">
         {formType === "edit"
-          ? `Modifier ${pokemon?.name}`
+          ? `Modifier ${pokemon?.name.french}`
           : "Ajouter un Pokémon"}
       </span>
       <div className="my-10 grid grid-cols-2 gap-x-6 gap-y-4">
@@ -223,7 +223,11 @@ function PokemonForm({
           >
             <option disabled>Choisissez un type</option>
             {pokemonTypes.map((type) => (
-              <option key={type} value={type}>
+              <option
+                key={type}
+                value={type}
+                selected={type === pokemon?.type[0]}
+              >
                 {type}
               </option>
             ))}
@@ -238,7 +242,11 @@ function PokemonForm({
             <option disabled>Choisissez un type</option>
             <option value="">Aucun</option>
             {pokemonTypes.map((type) => (
-              <option key={type} value={type}>
+              <option
+                key={type}
+                value={type}
+                selected={type === pokemon?.type[1]}
+              >
                 {type}
               </option>
             ))}

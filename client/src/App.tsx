@@ -49,7 +49,7 @@ export default function App() {
               />
             </div>
             <label
-              htmlFor="my-modal-3"
+              htmlFor="my-modal-2"
               className="btn btn-circle btn-md text-2xl"
             >
               +
