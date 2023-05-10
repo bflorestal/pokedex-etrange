@@ -14,7 +14,6 @@ const languages: Language[] = [
     name: "english",
     label: "🇬🇧",
   },
-  /* */
   {
     name: "japanese",
     label: "🇯🇵",
@@ -23,14 +22,11 @@ const languages: Language[] = [
     name: "chinese",
     label: "🇨🇳",
   },
-  /**/
 ];
 
 type LanguageContextType = {
   languages: Language[];
   currentLang: Language;
-  //   setLanguage: React.Dispatch<React.SetStateAction<Language>>;
-  //   changeLanguage: (lang: string) => void;
   handleChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
